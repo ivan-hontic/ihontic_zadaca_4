@@ -5,8 +5,13 @@
  */
 package MVC_kontroler;
 
+import Dretve.DretvaDolaska;
+import Dretve.DretvaKontrole;
+import Dretve.DretvaOdlaska;
+import Iterator.AutiIterator;
 import Iterator.IteratorPodaci;
 import Iterator.ParkiranjaIterator;
+import Iterator.ZoneIterator;
 import MVC_podaci.Automobili;
 import MVC_podaci.ParkiraniAutiPoZonama;
 import MVC_podaci.Zone;
@@ -24,31 +29,53 @@ public class ElementKonroler {
     public static List<Zone> zone = new ArrayList<>();
     public static List<ParkiraniAutiPoZonama> parkiraniAuti = new ArrayList<>();
 
+    //dretve
+    private DretvaDolaska dretvaDolaska = new DretvaDolaska();
+    private DretvaOdlaska dretvaOdlaska = new DretvaOdlaska();
+    private DretvaKontrole dretvaKontrole = new DretvaKontrole();
+    public static boolean pokrenutiDolasci = true;
+
+    public static int vremenskaJedinica;
+    public static int intervalDolaska;
+    public static int intervalOdlaska;
+    public static int brojZona;
+    public static int cijenaJedinice;
+
     public void pokreni(String[] args) {
         int brojAutomobila = Integer.parseInt(args[0]);
         kreirajAutomobile(brojAutomobila);
 
-        int brojZona = Integer.parseInt(args[1]);
+        brojZona = Integer.parseInt(args[1]);
         int kapacitetZone = Integer.parseInt(args[2]);
         int maksParkiranje = Integer.parseInt(args[3]);
-        int vremenskaJedinica = Integer.parseInt(args[4]);
-        int cijenaJedinice = Integer.parseInt(args[7]);
+        vremenskaJedinica = Integer.parseInt(args[4]);
+        cijenaJedinice = Integer.parseInt(args[7]);
         kreirajZone(brojZona, kapacitetZone, maksParkiranje, vremenskaJedinica, cijenaJedinice);
 
-        //ispisiAutomobile();
-        //ispisiZone();
-        //System.out.println("EK generated: "+generirajVrijednost());
-        napuniParking();
-        ispisiParkiranje();
-        obrisiPrvog();
-        ispisiParkiranje();
-        //obrisiPrvog();
-        //ispisiParkiranje();
-        dodajPrvog();
-        ispisiParkiranje();
-        //obrisiPrvog();
-        dodajPrvog();
-        ispisiParkiranje();
+        intervalDolaska = Integer.parseInt(args[5]);
+        intervalOdlaska = Integer.parseInt(args[6]);
+
+        //pokretanje dretvi
+        try {
+            dretvaDolaska.start();
+        } catch (Exception e) {
+            dretvaDolaska = new DretvaDolaska();
+            dretvaDolaska.start();
+        }
+        try {
+            dretvaOdlaska.start();
+        } catch (Exception e) {
+            dretvaOdlaska = new DretvaOdlaska();
+            dretvaOdlaska.start();
+        }
+        try {
+            dretvaKontrole.start();
+        } catch (Exception e) {
+            dretvaKontrole = new DretvaKontrole();
+            dretvaKontrole.start();
+        }
+
+        
     }
 
     public void kreirajAutomobile(int brojAuta) {
@@ -61,7 +88,7 @@ public class ElementKonroler {
     public void kreirajZone(int brojZona, int kapacitetZone, int maksParkiranje, int vremenskaJedinica, int cijenaJedinice) {
         for (int i = 0; i < brojZona; i++) {
             int brojZone = i + 1;
-            Zone pomocni = new Zone(brojZone, brojZone * kapacitetZone, 0, brojZone * maksParkiranje * vremenskaJedinica * 1000, (brojZona + 1 - brojZone) * cijenaJedinice, 0, 0, 0);
+            Zone pomocni = new Zone(brojZone, brojZone * kapacitetZone, 0, 0, brojZone * maksParkiranje * vremenskaJedinica * 1000, (brojZona + 1 - brojZone) * cijenaJedinice, 0, 0, 0);
             zone.add(pomocni);
         }
     }
@@ -75,62 +102,52 @@ public class ElementKonroler {
 
     //za provjeru
     public void ispisiAutomobile() {
-        for (Automobili a : auti) {
-            System.out.println("Id auta: " + a.getIdAutomobila());
+        AutiIterator ai = new AutiIterator(auti);
+        for (IteratorPodaci iter = ai.getIteratorPodaci(); iter.hasNext();) {
+            Automobili zapis = (Automobili) iter.next();
+
+            System.out.println("ID auta iter : " + zapis.getIdAutomobila());
         }
     }
 
     public void ispisiZone() {
-        for (Zone z : zone) {
-            System.out.println("idZone: " + z.getIdZone() + " kapacitet: " + z.getKapacitet() + " vr parkiranja: " + z.getVrijemeParkiranja() + " cij parkiranja: " + z.getCijenaParkiranja());
+
+        ZoneIterator zi = new ZoneIterator(zone);
+        for (IteratorPodaci iter = zi.getIteratorPodaci(); iter.hasNext();) {
+            Zone zapis = (Zone) iter.next();
+            System.out.println("idZone: " + zapis.getIdZone() + " kapacitet: " + zapis.getKapacitet() + " vr parkiranja: " + zapis.getVrijemeParkiranja() + " cij parkiranja: " + zapis.getCijenaParkiranja());
         }
     }
 
     public void ispisiParkiranje() {
-        /*
-         for (ParkiraniAutiPoZonama papz : parkiraniAuti) {
-         System.out.println("Auto: " + papz.getIdAuta() + " Zona: " + papz.idZone);
-         }*/
-        //ElementIterator it = new ElementIterator(listaDjece);
         ParkiranjaIterator pi = new ParkiranjaIterator(parkiraniAuti);
         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
 
-            System.out.println("ID auta : " + zapis.idAuta);
+            System.out.println("ID auta : " + zapis.idAuta + " zona: "+((zapis.idZone)+1));
         }
     }
 
     public void napuniParking() {
         for (Automobili a : auti) {
-            ParkiraniAutiPoZonama pomocni = new ParkiraniAutiPoZonama(a.getIdAutomobila(), 11, 0, 0, 0);
+            ParkiraniAutiPoZonama pomocni = new ParkiraniAutiPoZonama(a.getIdAutomobila(), 11, 0, 0);
             //System.out.println("Id auta: " + a.getIdAutomobila());
             parkiraniAuti.add(pomocni);
         }
     }
 
     public void obrisiPrvog() {
-        /*
-                for (ParkiraniAutiPoZonama papz : parkiraniAuti) {
-
-            //System.out.println("T je");
-            parkiraniAuti.remove(papz);
-            break;
-
-        }*/
         ParkiranjaIterator pi = new ParkiranjaIterator(parkiraniAuti);
         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
-            if(zapis.getIdAuta()==1 || zapis.getIdAuta()==5) {
-              parkiraniAuti.remove(zapis);
+            if (zapis.getIdAuta() == 1 || zapis.getIdAuta() == 5) {
+                parkiraniAuti.remove(zapis);
             }
-
-            //System.out.println("ID auta : " + zapis.idAuta);
         }
     }
 
     public void dodajPrvog() {
-        ParkiraniAutiPoZonama pomocni = new ParkiraniAutiPoZonama(1, 11, 0, 0, 0);
-        //System.out.println("Id auta: " + a.getIdAutomobila());
+        ParkiraniAutiPoZonama pomocni = new ParkiraniAutiPoZonama(1, 11, 0, 0);
         parkiraniAuti.add(pomocni);
     }
 

@@ -14,14 +14,12 @@ public class ParkiraniAutiPoZonama {
     public int idAuta;
     public int idZone;
     public int brojProduzenja;
-    public int vrijemeParkiranja;
-    public int vrijemeDoKadJeParkiran;
+    public long vrijemeDoKadJeParkiran;
 
-    public ParkiraniAutiPoZonama(int idAuta, int idZone, int brojProduzenja, int vrijemeParkiranja, int vrijemeDoKadJeParkiran) {
+    public ParkiraniAutiPoZonama(int idAuta, int idZone, int brojProduzenja, long vrijemeDoKadJeParkiran) {
         this.idAuta = idAuta;
         this.idZone = idZone;
         this.brojProduzenja = brojProduzenja;
-        this.vrijemeParkiranja = vrijemeParkiranja;
         this.vrijemeDoKadJeParkiran = vrijemeDoKadJeParkiran;
     }
 
@@ -49,19 +47,11 @@ public class ParkiraniAutiPoZonama {
         this.brojProduzenja = brojProduzenja;
     }
 
-    public int getVrijemeParkiranja() {
-        return vrijemeParkiranja;
-    }
-
-    public void setVrijemeParkiranja(int vrijemeParkiranja) {
-        this.vrijemeParkiranja = vrijemeParkiranja;
-    }
-
-    public int getVrijemeDoKadJeParkiran() {
+    public long getVrijemeDoKadJeParkiran() {
         return vrijemeDoKadJeParkiran;
     }
 
-    public void setVrijemeDoKadJeParkiran(int vrijemeDoKadJeParkiran) {
+    public void setVrijemeDoKadJeParkiran(long vrijemeDoKadJeParkiran) {
         this.vrijemeDoKadJeParkiran = vrijemeDoKadJeParkiran;
     }
     

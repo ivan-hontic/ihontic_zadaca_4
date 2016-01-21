@@ -10,14 +10,19 @@ package MVC_podaci;
  * @author Ivan Hontic
  */
 public class Automobili {
+
     private int idAutomobila;
-    private int brojParkiranja;
+    public int brojParkiranja;
     boolean parkiran;
 
     public Automobili(int idAutomobila, int brojParkiranja, boolean parkiran) {
         this.idAutomobila = idAutomobila;
         this.brojParkiranja = brojParkiranja;
         this.parkiran = parkiran;
+    }
+
+    public void setIdAutomobila(int idAutomobila) {
+        this.idAutomobila = idAutomobila;
     }
 
     public int getIdAutomobila() {
@@ -40,9 +45,4 @@ public class Automobili {
         this.parkiran = parkiran;
     }
 
-    
-    
-    
-    
-    
 }

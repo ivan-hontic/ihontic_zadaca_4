@@ -12,6 +12,7 @@ package MVC_podaci;
 public class Zone {
     public int idZone;
     public int kapacitet;
+    public int brojZauzetih;
     public int brParkiranih;
     public int vrijemeParkiranja;
     public int cijenaParkiranja;
@@ -19,9 +20,10 @@ public class Zone {
     public int zaradaKazne;
     public int brojAutaBezMjesta;
 
-    public Zone(int idZone, int kapacitet, int brParkiranih, int vrijemeParkiranja, int cijenaParkiranja, int zaradaParking, int zaradaKazne, int brojAutaBezMjesta) {
+    public Zone(int idZone, int kapacitet, int brojZauzetih, int brParkiranih, int vrijemeParkiranja, int cijenaParkiranja, int zaradaParking, int zaradaKazne, int brojAutaBezMjesta) {
         this.idZone = idZone;
         this.kapacitet = kapacitet;
+        this.brojZauzetih = brojZauzetih;
         this.brParkiranih = brParkiranih;
         this.vrijemeParkiranja = vrijemeParkiranja;
         this.cijenaParkiranja = cijenaParkiranja;
@@ -29,6 +31,16 @@ public class Zone {
         this.zaradaKazne = zaradaKazne;
         this.brojAutaBezMjesta = brojAutaBezMjesta;
     }
+
+    public int getBrojZauzetih() {
+        return brojZauzetih;
+    }
+
+    public void setBrojZauzetih(int brojZauzetih) {
+        this.brojZauzetih = brojZauzetih;
+    }
+
+    
 
     public int getIdZone() {
         return idZone;
