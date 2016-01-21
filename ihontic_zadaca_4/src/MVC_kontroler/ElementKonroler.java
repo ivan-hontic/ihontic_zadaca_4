@@ -99,6 +99,12 @@ public class ElementKonroler {
         x = x / 1000;
         return x;
     }
+    public int izracunajCijenu(int zona){
+        //TODO izracun cijene
+        
+        
+        return 0;
+    }
 
     //za provjeru
     public void ispisiAutomobile() {

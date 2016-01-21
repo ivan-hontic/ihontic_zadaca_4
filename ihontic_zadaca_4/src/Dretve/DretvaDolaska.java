@@ -7,10 +7,13 @@ package Dretve;
 
 import Iterator.AutiIterator;
 import Iterator.IteratorPodaci;
+import MVC_ispis.ContextIspis;
+import MVC_ispis.IspisTeksta;
 import MVC_kontroler.ElementKonroler;
 import static MVC_kontroler.ElementKonroler.auti;
 import MVC_podaci.Automobili;
 import MVC_podaci.ParkiraniAutiPoZonama;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -27,18 +30,20 @@ public class DretvaDolaska extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Dretva Dolaska");
-        Main.MainProgram.ek.ispisiZone();
+        ContextIspis contextIspis = new ContextIspis(new IspisTeksta());
+        String tekstZaIspis = "";
 
         while (Main.MainProgram.ek.pokrenutiDolasci) {
             //pocetno vrijeme obrade dretve za točno određivanje ciklusa
             Date pocVrijeme = new Date();
             long miliPoc = pocVrijeme.getTime();
             long miliUK = 0;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
             //određivanje ciklusa dretve prema formuli
             double ciklus = (Main.MainProgram.ek.vremenskaJedinica / Main.MainProgram.ek.intervalDolaska) * Main.MainProgram.ek.generirajVrijednost() * 1000;
 
+            //dohvaćanje prvog automobila iz skupa automobila za parkiranje
             Automobili autoKojiUlazi = new Automobili(0, 0, true);
             AutiIterator ai = new AutiIterator(auti);
             for (IteratorPodaci iter = ai.getIteratorPodaci(); iter.hasNext();) {
@@ -47,17 +52,19 @@ public class DretvaDolaska extends Thread {
                     zapis.setParkiran(true);
                     zapis.brojParkiranja++;
                     autoKojiUlazi = zapis;
-                    //System.out.println("ID auta iter : " + zapis.getIdAutomobila());
-                    //System.out.println("ID auta iter : " + autoKojiUlazi.getIdAutomobila());
                     break;
                 }
             }
             if (autoKojiUlazi.getIdAutomobila() == 0) {
                 //ispis da nema auta za uci
-                System.out.println("Nema auta za uci!");
+                tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: NEMA | Iznos: 0 | Status: Nema auta za uci!";
+                contextIspis.izvrsiIspis(null, null, tekstZaIspis);
             } else {
                 //odabir zone
                 int zona = (int) ((Main.MainProgram.ek.brojZona * Main.MainProgram.ek.generirajVrijednost()));
+                if(zona==4) {
+                    zona--;
+                }
                 if (ElementKonroler.zone.get(zona).getKapacitet() == ElementKonroler.zone.get(zona).getBrojZauzetih()) {
                     //nema mjesta u zoni
                     for (IteratorPodaci iter = ai.getIteratorPodaci(); iter.hasNext();) {
@@ -71,30 +78,25 @@ public class DretvaDolaska extends Thread {
                         }
                     }
                     Main.MainProgram.ek.zone.get(zona).brojAutaBezMjesta++;
-                    System.out.println("Nema mjesta više u zoni!");
+                    tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: " + (zona + 1) + "| Iznos: 0 | Status: Sva parkirna mjesta u zoni su zauzeta!";
+                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
                 } else {
-                    //ima mjesta
-                    //((brojZona + 1 - i) * cijenaJedinice)
-                    int cijena = (Main.MainProgram.ek.brojZona - zona) * Main.MainProgram.ek.cijenaJedinice;
-                    System.out.println("Cijena jedinice: " + cijena);
-                    System.out.println("Vrijem: " + pocVrijeme);
-                    System.out.println("Mili poc: " + miliPoc);
+                    //ima mjesta u zoni
+                    //int cijena = (Main.MainProgram.ek.brojZona - zona) * Main.MainProgram.ek.cijenaJedinice;
+
                     Main.MainProgram.ek.zone.get(zona).brojZauzetih++;
                     Main.MainProgram.ek.zone.get(zona).brParkiranih++;
                     Main.MainProgram.ek.zone.get(zona).zaradaParking += Main.MainProgram.ek.zone.get(zona).cijenaParkiranja;
 
-                    ParkiraniAutiPoZonama pom = new ParkiraniAutiPoZonama(autoKojiUlazi.getIdAutomobila(), zona, 0, miliUK + Main.MainProgram.ek.zone.get(zona).getVrijemeParkiranja());
+                    ParkiraniAutiPoZonama pom = new ParkiraniAutiPoZonama(autoKojiUlazi.getIdAutomobila(), (zona+1), 0, miliPoc + Main.MainProgram.ek.zone.get(zona).getVrijemeParkiranja());
                     Main.MainProgram.ek.parkiraniAuti.add(pom);
-                    System.out.println("_______________");
-                    
-                    Main.MainProgram.ek.ispisiParkiranje();
-                    System.out.println("_______________");
+
+                    tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: " + (zona + 1) + "| Iznos:" + Main.MainProgram.ek.zone.get(zona).cijenaParkiranja + " | Status: Auto je parkiran!";
+                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
 
                 }
 
             }
-
-            System.out.println("Ciklus dretve: " + ciklus);
 
             //vrijeme kraja obrade dretve za točno određivanje ciklusa
             Date krajVrijeme = new Date();
