@@ -9,8 +9,8 @@ import Iterator.AutiIterator;
 import Iterator.IteratorPodaci;
 import MVC_ispis.ContextIspis;
 import MVC_ispis.IspisTeksta;
-import MVC_kontroler.ElementKonroler;
-import static MVC_kontroler.ElementKonroler.auti;
+import MVC_kontroler.ElementKontroler;
+import static MVC_kontroler.ElementKontroler.auti;
 import MVC_podaci.Automobili;
 import MVC_podaci.ParkiraniAutiPoZonama;
 import java.text.SimpleDateFormat;
@@ -62,10 +62,10 @@ public class DretvaDolaska extends Thread {
             } else {
                 //odabir zone
                 int zona = (int) ((Main.MainProgram.ek.brojZona * Main.MainProgram.ek.generirajVrijednost()));
-                if(zona==4) {
+                if(zona==Main.MainProgram.ek.brojZona) {
                     zona--;
                 }
-                if (ElementKonroler.zone.get(zona).getKapacitet() == ElementKonroler.zone.get(zona).getBrojZauzetih()) {
+                if (ElementKontroler.zone.get(zona).getKapacitet() == ElementKontroler.zone.get(zona).getBrojZauzetih()) {
                     //nema mjesta u zoni
                     for (IteratorPodaci iter = ai.getIteratorPodaci(); iter.hasNext();) {
                         Automobili zapis = (Automobili) iter.next();
@@ -85,7 +85,7 @@ public class DretvaDolaska extends Thread {
                     //int cijena = (Main.MainProgram.ek.brojZona - zona) * Main.MainProgram.ek.cijenaJedinice;
 
                     Main.MainProgram.ek.zone.get(zona).brojZauzetih++;
-                    Main.MainProgram.ek.zone.get(zona).brParkiranih++;
+                    //Main.MainProgram.ek.zone.get(zona).brPaukiranih++;
                     Main.MainProgram.ek.zone.get(zona).zaradaParking += Main.MainProgram.ek.zone.get(zona).cijenaParkiranja;
 
                     ParkiraniAutiPoZonama pom = new ParkiraniAutiPoZonama(autoKojiUlazi.getIdAutomobila(), (zona+1), 0, miliPoc + Main.MainProgram.ek.zone.get(zona).getVrijemeParkiranja());

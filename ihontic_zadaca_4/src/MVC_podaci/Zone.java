@@ -13,7 +13,7 @@ public class Zone {
     public int idZone;
     public int kapacitet;
     public int brojZauzetih;
-    public int brParkiranih;
+    public int brPaukiranih;
     public int vrijemeParkiranja;
     public int cijenaParkiranja;
     public int zaradaParking;
@@ -24,7 +24,7 @@ public class Zone {
         this.idZone = idZone;
         this.kapacitet = kapacitet;
         this.brojZauzetih = brojZauzetih;
-        this.brParkiranih = brParkiranih;
+        this.brPaukiranih = brParkiranih;
         this.vrijemeParkiranja = vrijemeParkiranja;
         this.cijenaParkiranja = cijenaParkiranja;
         this.zaradaParking = zaradaParking;
@@ -58,12 +58,12 @@ public class Zone {
         return cijenaParkiranja;
     }
 
-    public int getBrParkiranih() {
-        return brParkiranih;
+    public int getBrPaukiranih() {
+        return brPaukiranih;
     }
 
     public void setBrPrakiranih(int brParkiranih) {
-        this.brParkiranih = brParkiranih;
+        this.brPaukiranih = brParkiranih;
     }
 
     public int getZaradaParking() {

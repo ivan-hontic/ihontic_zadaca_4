@@ -23,7 +23,7 @@ import java.util.Random;
  *
  * @author Ivan Hontic
  */
-public class ElementKonroler {
+public class ElementKontroler {
 
     public static List<Automobili> auti = new ArrayList<>();
     public static List<Zone> zone = new ArrayList<>();
@@ -40,6 +40,8 @@ public class ElementKonroler {
     public static int intervalOdlaska;
     public static int brojZona;
     public static int cijenaJedinice;
+    public static int intervalKontrole;
+    public static int kaznaParkiranja;
 
     public void pokreni(String[] args) {
         int brojAutomobila = Integer.parseInt(args[0]);
@@ -54,6 +56,8 @@ public class ElementKonroler {
 
         intervalDolaska = Integer.parseInt(args[5]);
         intervalOdlaska = Integer.parseInt(args[6]);
+        intervalKontrole = Integer.parseInt(args[8]);
+        kaznaParkiranja = Integer.parseInt(args[9]);
 
         //pokretanje dretvi
         try {
@@ -75,7 +79,6 @@ public class ElementKonroler {
             dretvaKontrole.start();
         }
 
-        
     }
 
     public void kreirajAutomobile(int brojAuta) {
@@ -99,10 +102,10 @@ public class ElementKonroler {
         x = x / 1000;
         return x;
     }
-    public int izracunajCijenu(int zona){
+
+    public int izracunajCijenu(int zona) {
         //TODO izracun cijene
-        
-        
+
         return 0;
     }
 
@@ -130,7 +133,7 @@ public class ElementKonroler {
         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
 
-            System.out.println("ID auta : " + zapis.idAuta + " zona: "+((zapis.idZone)+1));
+            System.out.println("ID auta : " + zapis.idAuta + " zona: " + ((zapis.idZone) + 1));
         }
     }
 

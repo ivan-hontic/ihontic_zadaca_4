@@ -10,9 +10,9 @@ import Iterator.IteratorPodaci;
 import Iterator.ParkiranjaIterator;
 import MVC_ispis.ContextIspis;
 import MVC_ispis.IspisTeksta;
-import MVC_kontroler.ElementKonroler;
-import static MVC_kontroler.ElementKonroler.auti;
-import static MVC_kontroler.ElementKonroler.parkiraniAuti;
+import MVC_kontroler.ElementKontroler;
+import static MVC_kontroler.ElementKontroler.auti;
+import static MVC_kontroler.ElementKontroler.parkiraniAuti;
 import MVC_podaci.Automobili;
 import MVC_podaci.ParkiraniAutiPoZonama;
 import static java.lang.Thread.sleep;
@@ -137,7 +137,7 @@ public class DretvaOdlaska extends Thread {
                     } else {
                         //produljenje karte - ako karta još vrijedi, tada se produljuje od trenutka kad istice. ako vise ne vredi, tada se produljuje od sada
 
-                        Main.MainProgram.ek.zone.get(papz.idZone - 1).brParkiranih++;
+                        //Main.MainProgram.ek.zone.get(papz.idZone - 1).brPaukiranih++;
                         Main.MainProgram.ek.zone.get(papz.idZone - 1).zaradaParking += Main.MainProgram.ek.zone.get(papz.idZone - 1).cijenaParkiranja;
                         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
                             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();

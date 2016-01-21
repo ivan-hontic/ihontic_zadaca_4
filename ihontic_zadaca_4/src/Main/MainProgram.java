@@ -5,7 +5,7 @@
  */
 package Main;
 
-import MVC_kontroler.ElementKonroler;
+import MVC_kontroler.ElementKontroler;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -14,7 +14,7 @@ import static java.lang.Integer.parseInt;
  */
 public class MainProgram {
 
-    public static ElementKonroler ek;
+    public static ElementKontroler ek;
 
     /**
      * @param args the command line arguments
@@ -97,7 +97,7 @@ public class MainProgram {
             return;
         }
         
-        ek  = new ElementKonroler();
+        ek  = new ElementKontroler();
         ek.pokreni(args);
 
     }
