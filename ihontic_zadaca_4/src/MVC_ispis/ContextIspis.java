@@ -7,6 +7,7 @@ package MVC_ispis;
 
 import MVC_podaci.Automobili;
 import MVC_podaci.Zone;
+import java.util.List;
 
 /**
  *
@@ -31,7 +32,7 @@ public class ContextIspis {
         this.strategyIspis=strategyIspis;
     }
     
-    public void izvrsiIspis(Automobili auto, Zone zone, String tekst) {
+    public void izvrsiIspis(List<Automobili> auto, List<Zone> zone, String tekst) {
         strategyIspis.ispisiNaZaslon(auto, zone, tekst);
     }
     

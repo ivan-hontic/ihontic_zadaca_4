@@ -57,8 +57,8 @@ public class DretvaDolaska extends Thread {
             }
             if (autoKojiUlazi.getIdAutomobila() == 0) {
                 //ispis da nema auta za uci
-                tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: NEMA | Iznos: 0 | Status: Nema auta za uci!";
-                contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                //tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: NEMA | Iznos: 0 | Status: Nema auta za uci!";
+                //contextIspis.izvrsiIspis(null, null, tekstZaIspis);
             } else {
                 //odabir zone
                 int zona = (int) ((Main.MainProgram.ek.brojZona * Main.MainProgram.ek.generirajVrijednost()));
@@ -79,7 +79,7 @@ public class DretvaDolaska extends Thread {
                     }
                     Main.MainProgram.ek.zone.get(zona).brojAutaBezMjesta++;
                     tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: " + (zona + 1) + "| Iznos: 0 | Status: Sva parkirna mjesta u zoni su zauzeta!";
-                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                    contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
                 } else {
                     //ima mjesta u zoni
                     //int cijena = (Main.MainProgram.ek.brojZona - zona) * Main.MainProgram.ek.cijenaJedinice;
@@ -92,7 +92,7 @@ public class DretvaDolaska extends Thread {
                     Main.MainProgram.ek.parkiraniAuti.add(pom);
 
                     tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: " + (zona + 1) + "| Iznos:" + Main.MainProgram.ek.zone.get(zona).cijenaParkiranja + " | Status: Auto je parkiran!";
-                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                    contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                 }
 

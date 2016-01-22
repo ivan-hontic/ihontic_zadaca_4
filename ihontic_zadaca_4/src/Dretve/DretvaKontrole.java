@@ -72,7 +72,7 @@ public class DretvaKontrole extends Thread {
                     
                     
                     tekstZaIspis = "KONTROLA - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Iznos: "+kaznaIznos+" | Status: Auto je odvezen na deponij!";
-                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                    contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
                 }
 
             }

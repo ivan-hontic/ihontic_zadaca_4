@@ -64,8 +64,8 @@ public class DretvaOdlaska extends Thread {
             }
             if (papz.idAuta == 0) {
                 //ispis da nema auta za izaci
-                tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: NEMA | Zona: NEMA | Status: Nema auta za izaci!";
-                contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                //tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: NEMA | Zona: NEMA | Status: Nema auta za izaci!";
+                //contextIspis.izvrsiIspis(null, null, tekstZaIspis);
             } else {
                 //ima auta - slijedi biranje akcije 0,1 ili 2
                 int akcija = (int) (4 * Main.MainProgram.ek.generirajVrijednost());
@@ -81,7 +81,7 @@ public class DretvaOdlaska extends Thread {
                         }
                     
                     tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Korisnikova akcija: ništa!";
-                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+//                    contextIspis.izvrsiIspis(auti, ElementKontroler.zone, tekstZaIspis);
                 } else if (akcija == 1 || akcija == 2) {
                     //auto odlazi sa parkinga
                     for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
@@ -105,7 +105,7 @@ public class DretvaOdlaska extends Thread {
                         }
                     }
                     tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Korisnik odlazi sa parkiralista!";
-                    contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                    contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                 } else {
                     //vlasnik obnavlja kartu ako zadovoljava preduvjete
@@ -132,7 +132,7 @@ public class DretvaOdlaska extends Thread {
                             }
                         }
                         tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Produljenje karte odbijeno!";
-                        contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                        contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                     } else {
                         //produljenje karte - ako karta još vrijedi, tada se produljuje od trenutka kad istice. ako vise ne vredi, tada se produljuje od sada
@@ -159,7 +159,7 @@ public class DretvaOdlaska extends Thread {
                         //d
                         //dsfdsf
                         tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Parking produljen!";
-                        contextIspis.izvrsiIspis(null, null, tekstZaIspis);
+                        contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                     }
 

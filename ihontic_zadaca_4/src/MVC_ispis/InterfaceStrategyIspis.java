@@ -7,6 +7,7 @@ package MVC_ispis;
 
 import MVC_podaci.Automobili;
 import MVC_podaci.Zone;
+import java.util.List;
 
 /**
  *
@@ -14,6 +15,6 @@ import MVC_podaci.Zone;
  */
 public interface InterfaceStrategyIspis {
     
-    public void ispisiNaZaslon(Automobili auto, Zone zone, String tekst);
+    public void ispisiNaZaslon(List<Automobili> auto, List<Zone> zone, String tekst);
     
 }
