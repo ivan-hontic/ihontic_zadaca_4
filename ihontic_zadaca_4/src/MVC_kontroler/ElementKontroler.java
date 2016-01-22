@@ -53,8 +53,8 @@ public class ElementKontroler {
     public static int kaznaParkiranja;
 
     public void pokreni(String[] args) {
-        int unosojAutomobila = Integer.parseInt(args[0]);
-        kreirajAutomobile(unosojAutomobila);
+        int brojAutomobila = Integer.parseInt(args[0]);
+        kreirajAutomobile(brojAutomobila);
 
         brojZona = Integer.parseInt(args[1]);
         int kapacitetZone = Integer.parseInt(args[2]);
@@ -95,8 +95,34 @@ public class ElementKontroler {
             unos = reader.nextLine();
 
             if (unos.startsWith("1")) {
+                if (pokrenutiDolasci) {
+                    pokrenutiDolasci = false;
+                    try {
+                        dretvaDolaska.interrupt();
+                    } catch (Exception e) {
+                    }
+                    ContextIspis contextIspis = new ContextIspis(new IspisTeksta());
+                    contextIspis.izvrsiIspis(auti, zone, "Parkiralište je sada zatvoreno!");
+                } else {
+                    ContextIspis contextIspis = new ContextIspis(new IspisTeksta());
+                    contextIspis.izvrsiIspis(auti, zone, "Parkiralište je već zatvoreno!");
+                }
 
             } else if (unos.startsWith("2")) {
+                if (pokrenutiDolasci) {
+                    ContextIspis contextIspis = new ContextIspis(new IspisTeksta());
+                    contextIspis.izvrsiIspis(auti, zone, "Parkiralište je već otvoreno!");
+                } else {
+                    pokrenutiDolasci = true;
+                    try {
+                        dretvaDolaska.start();
+                    } catch (Exception e) {
+                        dretvaDolaska = new DretvaDolaska();
+                        dretvaDolaska.start();
+                    }
+                    ContextIspis contextIspis = new ContextIspis(new IspisTeksta());
+                    contextIspis.izvrsiIspis(auti, zone, "Parkiralište je sada otvoreno!");
+                }
 
             } else if (unos.startsWith("3")) {
                 ContextIspis contextIspis = new ContextIspis(new IspisZaradaParkiranje());
@@ -195,7 +221,7 @@ public class ElementKontroler {
         }
     }
 
-    public void ounosisiPrvog() {
+    public void obrisiPrvog() {
         ParkiranjaIterator pi = new ParkiranjaIterator(parkiraniAuti);
         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
