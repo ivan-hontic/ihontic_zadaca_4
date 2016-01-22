@@ -5,7 +5,6 @@
  */
 package Dretve;
 
-import Iterator.AutiIterator;
 import Iterator.IteratorPodaci;
 import Iterator.ParkiranjaIterator;
 import MVC_ispis.ContextIspis;
@@ -13,7 +12,6 @@ import MVC_ispis.IspisTeksta;
 import MVC_kontroler.ElementKontroler;
 import static MVC_kontroler.ElementKontroler.auti;
 import static MVC_kontroler.ElementKontroler.parkiraniAuti;
-import MVC_podaci.Automobili;
 import MVC_podaci.ParkiraniAutiPoZonama;
 import static java.lang.Thread.sleep;
 import java.text.SimpleDateFormat;
@@ -63,15 +61,14 @@ public class DretvaKontrole extends Thread {
                 if (papz.vrijemeDoKadJeParkiran < miliPoc) {
                     //karta ne vrijedi - deponizacija
                     parkiraniAuti.remove(papz);
-                    int zona=papz.getIdZone()-1;
+                    int zona = papz.getIdZone() - 1;
                     ElementKontroler.zone.get(zona).brojZauzetih--;
-                    int kaznaIznos = ((ElementKontroler.brojZona+1-zona)*ElementKontroler.cijenaJedinice*ElementKontroler.kaznaParkiranja);
-                    ElementKontroler.zone.get(zona).zaradaKazne+=kaznaIznos;
-                    
+                    int kaznaIznos = ((ElementKontroler.brojZona + 1 - zona) * ElementKontroler.cijenaJedinice * ElementKontroler.kaznaParkiranja);
+                    ElementKontroler.zone.get(zona).zaradaKazne += kaznaIznos;
+
                     ElementKontroler.zone.get(zona).brPaukiranih++;
-                    
-                    
-                    tekstZaIspis = "KONTROLA - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Iznos: "+kaznaIznos+" | Status: Auto je odvezen na deponij!";
+
+                    tekstZaIspis = "KONTROLA - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Iznos: " + kaznaIznos + " | Status: Auto je odvezen na deponij!";
                     contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
                 }
 

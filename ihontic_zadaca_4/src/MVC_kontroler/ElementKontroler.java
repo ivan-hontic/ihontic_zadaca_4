@@ -148,9 +148,9 @@ public class ElementKontroler {
                 ContextIspis contextIspis = new ContextIspis(new IspisStanjaParkirnihMjesta());
                 contextIspis.izvrsiIspis(auti, zone, "x");
 
-            } else if (unos.equalsIgnoreCase("q")) {
-                //break;
-                System.err.println("Tu smo");
+            } else if (unos.equals("Q")) {
+                System.exit(0);
+
             }
 
         } while (!unos.toLowerCase().equals("q"));
@@ -177,63 +177,6 @@ public class ElementKontroler {
         double x = rn.nextInt(1000);
         x = x / 1000;
         return x;
-    }
-
-    public int izracunajCijenu(int zona) {
-        //TODO izracun cijene
-
-        return 0;
-    }
-
-    //za provjeru
-    public void ispisiAutomobile() {
-        AutiIterator ai = new AutiIterator(auti);
-        for (IteratorPodaci iter = ai.getIteratorPodaci(); iter.hasNext();) {
-            Automobili zapis = (Automobili) iter.next();
-
-            System.out.println("ID auta iter : " + zapis.getIdAutomobila());
-        }
-    }
-
-    public void ispisiZone() {
-
-        ZoneIterator zi = new ZoneIterator(zone);
-        for (IteratorPodaci iter = zi.getIteratorPodaci(); iter.hasNext();) {
-            Zone zapis = (Zone) iter.next();
-            System.out.println("idZone: " + zapis.getIdZone() + " kapacitet: " + zapis.getKapacitet() + " vr parkiranja: " + zapis.getVrijemeParkiranja() + " cij parkiranja: " + zapis.getCijenaParkiranja());
-        }
-    }
-
-    public void ispisiParkiranje() {
-        ParkiranjaIterator pi = new ParkiranjaIterator(parkiraniAuti);
-        for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
-            ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
-
-            System.out.println("ID auta : " + zapis.idAuta + " zona: " + ((zapis.idZone) + 1));
-        }
-    }
-
-    public void napuniParking() {
-        for (Automobili a : auti) {
-            ParkiraniAutiPoZonama pomocni = new ParkiraniAutiPoZonama(a.getIdAutomobila(), 11, 0, 0);
-            //System.out.println("Id auta: " + a.getIdAutomobila());
-            parkiraniAuti.add(pomocni);
-        }
-    }
-
-    public void obrisiPrvog() {
-        ParkiranjaIterator pi = new ParkiranjaIterator(parkiraniAuti);
-        for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
-            ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
-            if (zapis.getIdAuta() == 1 || zapis.getIdAuta() == 5) {
-                parkiraniAuti.remove(zapis);
-            }
-        }
-    }
-
-    public void dodajPrvog() {
-        ParkiraniAutiPoZonama pomocni = new ParkiraniAutiPoZonama(1, 11, 0, 0);
-        parkiraniAuti.add(pomocni);
     }
 
 }

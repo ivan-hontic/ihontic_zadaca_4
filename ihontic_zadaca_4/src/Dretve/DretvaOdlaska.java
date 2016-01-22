@@ -72,16 +72,16 @@ public class DretvaOdlaska extends Thread {
                 if (akcija == 0) {
                     //korisnik dođe ali ništa ne uradi
                     for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
-                            ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
-                            if (zapis.idAuta == papz.idAuta) {
-                                parkiraniAuti.remove(zapis);
-                                parkiraniAuti.add(papz);
-                                break;
-                            }
+                        ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
+                        if (zapis.idAuta == papz.idAuta) {
+                            parkiraniAuti.remove(zapis);
+                            parkiraniAuti.add(papz);
+                            break;
                         }
-                    
-                    tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Korisnikova akcija: ništa!";
-//                    contextIspis.izvrsiIspis(auti, ElementKontroler.zone, tekstZaIspis);
+                    }
+
+                    tekstZaIspis = "-ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Korisnikova akcija: ništa!";
+                    contextIspis.izvrsiIspis(auti, ElementKontroler.zone, tekstZaIspis);
                 } else if (akcija == 1 || akcija == 2) {
                     //auto odlazi sa parkinga
                     for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
@@ -104,13 +104,13 @@ public class DretvaOdlaska extends Thread {
                             break;
                         }
                     }
-                    tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Korisnik odlazi sa parkiralista!";
+                    tekstZaIspis = "-ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Korisnik odlazi sa parkiralista!";
                     contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                 } else {
                     //vlasnik obnavlja kartu ako zadovoljava preduvjete
                     if (papz.brojProduzenja == (papz.idZone - 1)) {
-                        //auto odlazi sa parkinga
+                        //auto odlazi sa parkinga jer ne može se više produljiti karta
                         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
                             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
                             if (zapis.idAuta == papz.idAuta) {
@@ -131,13 +131,12 @@ public class DretvaOdlaska extends Thread {
                                 break;
                             }
                         }
-                        tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Produljenje karte odbijeno!";
+                        tekstZaIspis = "-ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Produljenje karte odbijeno!";
                         contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                     } else {
                         //produljenje karte - ako karta još vrijedi, tada se produljuje od trenutka kad istice. ako vise ne vredi, tada se produljuje od sada
 
-                        //Main.MainProgram.ek.zone.get(papz.idZone - 1).brPaukiranih++;
                         Main.MainProgram.ek.zone.get(papz.idZone - 1).zaradaParking += Main.MainProgram.ek.zone.get(papz.idZone - 1).cijenaParkiranja;
                         for (IteratorPodaci iter = pi.getIteratorPodaci(); iter.hasNext();) {
                             ParkiraniAutiPoZonama zapis = (ParkiraniAutiPoZonama) iter.next();
@@ -146,6 +145,16 @@ public class DretvaOdlaska extends Thread {
                                 break;
                             }
                         }
+                        //Automobili autoKojiUlazi = new Automobili(0, 0, true);
+                        AutiIterator ai = new AutiIterator(auti);
+                        for (IteratorPodaci iter = ai.getIteratorPodaci(); iter.hasNext();) {
+                            Automobili zapis = (Automobili) iter.next();
+                            if (zapis.getIdAutomobila() == papz.getIdAuta()) {
+                                zapis.brojParkiranja++;
+                                break;
+                            }
+                        }
+
                         papz.brojProduzenja++;
                         if (papz.vrijemeDoKadJeParkiran > miliPoc) {
                             //karta jos vrijedi
@@ -155,10 +164,8 @@ public class DretvaOdlaska extends Thread {
                             papz.vrijemeDoKadJeParkiran = miliPoc + Main.MainProgram.ek.zone.get(papz.idZone - 1).vrijemeParkiranja;
                         }
                         parkiraniAuti.add(papz);
-                        //dodati iznos u parkiranje ispis tu
-                        //d
-                        //dsfdsf
-                        tekstZaIspis = "ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Status: Parking produljen!";
+
+                        tekstZaIspis = "-ODLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + papz.idAuta + " | Zona: " + papz.idZone + " | Iznos: " + Main.MainProgram.ek.zone.get(papz.idZone - 1).cijenaParkiranja + " | Status: Parking produljen!";
                         contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
 
                     }

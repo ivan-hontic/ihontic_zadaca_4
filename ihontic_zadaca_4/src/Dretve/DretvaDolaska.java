@@ -62,7 +62,7 @@ public class DretvaDolaska extends Thread {
             } else {
                 //odabir zone
                 int zona = (int) ((Main.MainProgram.ek.brojZona * Main.MainProgram.ek.generirajVrijednost()));
-                if(zona==Main.MainProgram.ek.brojZona) {
+                if (zona == Main.MainProgram.ek.brojZona) {
                     zona--;
                 }
                 if (ElementKontroler.zone.get(zona).getKapacitet() == ElementKontroler.zone.get(zona).getBrojZauzetih()) {
@@ -82,13 +82,10 @@ public class DretvaDolaska extends Thread {
                     contextIspis.izvrsiIspis(auti, Main.MainProgram.ek.zone, tekstZaIspis);
                 } else {
                     //ima mjesta u zoni
-                    //int cijena = (Main.MainProgram.ek.brojZona - zona) * Main.MainProgram.ek.cijenaJedinice;
-
                     Main.MainProgram.ek.zone.get(zona).brojZauzetih++;
-                    //Main.MainProgram.ek.zone.get(zona).brPaukiranih++;
                     Main.MainProgram.ek.zone.get(zona).zaradaParking += Main.MainProgram.ek.zone.get(zona).cijenaParkiranja;
 
-                    ParkiraniAutiPoZonama pom = new ParkiraniAutiPoZonama(autoKojiUlazi.getIdAutomobila(), (zona+1), 0, miliPoc + Main.MainProgram.ek.zone.get(zona).getVrijemeParkiranja());
+                    ParkiraniAutiPoZonama pom = new ParkiraniAutiPoZonama(autoKojiUlazi.getIdAutomobila(), (zona + 1), 0, miliPoc + Main.MainProgram.ek.zone.get(zona).getVrijemeParkiranja());
                     Main.MainProgram.ek.parkiraniAuti.add(pom);
 
                     tekstZaIspis = "DOLAZAK - Vrijeme: " + sdf.format(pocVrijeme.getTime()) + " | Auto: " + autoKojiUlazi.getIdAutomobila() + " | Zona: " + (zona + 1) + "| Iznos:" + Main.MainProgram.ek.zone.get(zona).cijenaParkiranja + " | Status: Auto je parkiran!";
